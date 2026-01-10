@@ -1,0 +1,63 @@
+# Build directories
+build/
+out/
+cmake-build-*/
+
+# vcpkg installed packages (huge, don't commit!)
+vcpkg_installed/
+
+# Compiled binaries
+*.exe
+*.dll
+*.lib
+*.a
+*.so
+*.dylib
+
+# Object files
+*.o
+*.obj
+*.pdb
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+*.cmake
+!CMakeLists.txt
+
+# Visual Studio files
+.vs/
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# IDE files (keep shared configs, ignore user-specific)
+.vscode/*.code-workspace
+.idea/
+*.swp
+*.swo
+
+# Setup scripts should be committed
+!setup.ps1
+!setup.bat
+
+# Config files (may contain secrets)
+config.json
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db

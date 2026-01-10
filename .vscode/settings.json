@@ -1,0 +1,26 @@
+{
+    "cmake.configureOnOpen": false,
+    "cmake.configureOnEdit": false,
+    "cmake.buildBeforeRun": true,
+    "cmake.autoSelectActiveFolder": false,
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.generator": "Visual Studio 18 2026",
+    "cmake.configureSettings": {
+        "CMAKE_TOOLCHAIN_FILE": "${env:VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+    },
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "C_Cpp.default.intelliSenseMode": "windows-msvc-x64",
+    "files.associations": {
+        "*.h": "cpp",
+        "*.cpp": "cpp",
+        "*.proto": "proto3"
+    },
+    "json.schemas": [
+        {
+            "fileMatch": [
+                "**/launch.json"
+            ],
+            "url": "https://raw.githubusercontent.com/microsoft/vscode-cpptools/main/schemas/launch.schema.json"
+        }
+    ]
+}

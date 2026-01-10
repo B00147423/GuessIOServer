@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package guessio;
+
+
+// Messages
+message JoinRequest {
+  string username = 1;
+}
+
+message JoinReply {
+  string message = 1;
+}
+
+message GuessRequest {
+  string username = 1;
+  string guess = 2;
+}
+
+message GuessReply {
+  bool correct = 1;
+  string hint = 2;
+}
+
+// gRPC Service
+service GuessService {
+  rpc JoinGame(JoinRequest) returns (JoinReply);
+  rpc MakeGuess(GuessRequest) returns (GuessReply);
+}
