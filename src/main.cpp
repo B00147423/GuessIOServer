@@ -92,19 +92,41 @@ int main() {
                 if (nick.empty()) nick = cfg.value("TWITCH_NICK", "");
                 if (channel.empty()) channel = cfg.value("TWITCH_CHANNEL", "");
             } catch (const std::exception& e) {
-                std::cout << "Warning: Could not load config.json, using environment variables only\n";
+                std::cout << "Warning: Could not load config.json (" << e.what() << "), using environment variables only\n";
             }
         }
 
-        // spawn bot
-        std::cout << "Spawning Twitch bot for channel " << channel << "...\n";
-        bool botSpawned = server.spawnBot(oauth, nick, channel);
+        // Validate required Twitch bot configuration
+        if (oauth.empty() || nick.empty() || channel.empty()) {
+            std::cout << "\n=== Twitch Bot Configuration Missing ===\n";
+            std::cout << "The Twitch bot requires the following configuration:\n";
+            if (oauth.empty()) std::cout << "  - TWITCH_OAUTH: Missing\n";
+            if (nick.empty()) std::cout << "  - TWITCH_NICK: Missing\n";
+            if (channel.empty()) std::cout << "  - TWITCH_CHANNEL: Missing\n";
+            std::cout << "\nYou can configure it in one of two ways:\n";
+            std::cout << "1. Set environment variables:\n";
+            std::cout << "   - TWITCH_OAUTH\n";
+            std::cout << "   - TWITCH_NICK\n";
+            std::cout << "   - TWITCH_CHANNEL\n";
+            std::cout << "2. Create a config.json file in the project root:\n";
+            std::cout << "   {\n";
+            std::cout << "       \"TWITCH_OAUTH\": \"your_token\",\n";
+            std::cout << "       \"TWITCH_NICK\": \"your_bot\",\n";
+            std::cout << "       \"TWITCH_CHANNEL\": \"your_channel\"\n";
+            std::cout << "   }\n";
+            std::cout << "\nServer will continue running without Twitch bot.\n";
+            std::cout << "You can spawn bots later via the API.\n\n";
+        } else {
+            // spawn bot
+            std::cout << "Spawning Twitch bot for channel " << channel << "...\n";
+            bool botSpawned = server.spawnBot(oauth, nick, channel);
 
-        if (botSpawned) {
-            std::cout << "Twitch bot spawned successfully!\n";
-        }
-        else {
-            std::cout << "Failed to spawn Twitch bot!\n";
+            if (botSpawned) {
+                std::cout << "Twitch bot spawned successfully!\n";
+            }
+            else {
+                std::cout << "Failed to spawn Twitch bot!\n";
+            }
         }
 
 
