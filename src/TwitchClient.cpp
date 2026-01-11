@@ -90,8 +90,6 @@ void TwitchClient::doRead() {
                         line.pop_back();
                     if (line.empty()) continue;
 
-                    std::cout << "[RAW] " << line << "\n";
-
                     // PING/PONG
                     if (line.rfind("PING", 0) == 0) {
                         self->send("PONG :tmi.twitch.tv\r\n");
