@@ -1,12 +1,16 @@
 {
-"name": "guessio-connection",
-"version": "1.0.0",
-"description": "A C++ server application for a guessing game with Twitch integration",
-"dependencies": [
-    "boost-asio",
-    "boost-beast",
-    "grpc",
-    "protobuf",
-    "nlohmann-json"
-]
-}
+    "name": "guessio-connection",
+    "version": "1.0.0",
+    "description": "A C++ server application for a guessing game with Twitch integration",
+    "dependencies": [
+      "boost-asio",
+      "boost-beast",
+      "nlohmann-json",
+  
+      { "name": "protobuf", "host": true },
+      { "name": "grpc", "host": true },
+  
+      "protobuf",
+      "grpc"
+    ]
+  }

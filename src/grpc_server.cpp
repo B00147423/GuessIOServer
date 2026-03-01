@@ -1,10 +1,10 @@
 #include <grpcpp/grpcpp.h>
 #include <iostream>
 
-#include "../proto/proto_gen/guessio.grpc.pb.h"
-#include "../proto/proto_gen/guessio.pb.h"
+#include "guessio.pb.h"
+#include "guessio.grpc.pb.h"
 
-// Don’t use "using grpc::Server;" because you already have your own Server class
+// Donï¿½t use "using grpc::Server;" because you already have your own Server class
 namespace g = grpc;  // alias grpc namespace for safety
 
 using g::ServerBuilder;

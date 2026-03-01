@@ -40,7 +40,13 @@ void TwitchClient::login() {
     send("CAP REQ :twitch.tv/tags twitch.tv/commands twitch.tv/membership\r\n");
     send("PASS " + m_oauth + "\r\n");
     send("NICK " + m_nick + "\r\n");
-    send("JOIN " + m_channel + "\r\n");
+    
+    // Ensure channel has # prefix for Twitch IRC
+    std::string channelName = m_channel;
+    if (!channelName.empty() && channelName[0] != '#') {
+        channelName = "#" + channelName;
+    }
+    send("JOIN " + channelName + "\r\n");
 
     doRead();
 }
@@ -96,6 +102,16 @@ void TwitchClient::doRead() {
                         continue;
                     }
 
+                    // Authentication errors
+                    if (line.find(":tmi.twitch.tv NOTICE * :Login authentication failed") != std::string::npos) {
+                        std::cerr << "[ERROR] Twitch authentication failed! Check your OAuth token.\n";
+                        continue;
+                    }
+                    if (line.find(":tmi.twitch.tv NOTICE * :Improperly formatted auth") != std::string::npos) {
+                        std::cerr << "[ERROR] Invalid OAuth token format!\n";
+                        continue;
+                    }
+                    
                     // Connected
                     if (line.find(" 001 ") != std::string::npos) {
                         json okMsg = {
@@ -105,6 +121,19 @@ void TwitchClient::doRead() {
                             {"channel", self->m_channel}
                         };
                         self->m_server.onClientMessage(nullptr, okMsg.dump());
+                        continue;
+                    }
+                    
+                    // JOIN confirmation (format: :nick!nick@nick.tmi.twitch.tv JOIN #channel)
+                    if (line.find(" JOIN ") != std::string::npos) {
+                        std::string channelName = self->m_channel;
+                        if (!channelName.empty() && channelName[0] != '#') {
+                            channelName = "#" + channelName;
+                        }
+                        if (line.find(channelName) != std::string::npos) {
+                            std::cout << "[INFO] Successfully joined channel " << channelName << "\n";
+                            
+                        }
                         continue;
                     }
 
@@ -154,7 +183,14 @@ void TwitchClient::doRead() {
                 self->doRead();
             }
             else {
-                std::cerr << "Twitch read error: " << ec.message() << "\n";
+                if (ec == boost::asio::error::eof) {
+                    std::cerr << "[ERROR] Twitch connection closed unexpectedly (End of file). Possible causes:\n";
+                    std::cerr << "  - Invalid OAuth token\n";
+                    std::cerr << "  - Authentication failure\n";
+                    std::cerr << "  - Network issue\n";
+                } else {
+                    std::cerr << "[ERROR] Twitch read error: " << ec.message() << "\n";
+                }
             }
         });
 }

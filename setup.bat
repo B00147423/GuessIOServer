@@ -1,6 +1,9 @@
 @echo off
 REM GuessIOServer Setup Script (Batch version)
-REM This script automates the setup process for the project
+REM This script automates the setup process for LOCAL DEVELOPMENT ONLY
+REM 
+REM NOTE: For Docker deployment, the server is automatically built via Dockerfile.
+REM This script is only needed if you want to build and run the server locally.
 
 echo === GuessIOServer Setup ===
 echo.

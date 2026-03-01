@@ -1,5 +1,8 @@
 # GuessIOServer Setup Script
-# This script automates the setup process for the project
+# This script automates the setup process for LOCAL DEVELOPMENT ONLY
+# 
+# NOTE: For Docker deployment, the server is automatically built via Dockerfile.
+# This script is only needed if you want to build and run the server locally.
 
 # Ensure we're in the project directory
 $scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path

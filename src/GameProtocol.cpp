@@ -38,6 +38,23 @@ void GameProtocol::handleCommand(const std::string& username, const std::string&
     // --- Guess ---
     if (lower.rfind("!guess ", 0) == 0) {
         std::string guess = lower.substr(7);
+        
+        // Prevent room creator (channel owner) from guessing
+        std::string channelLower = channel;
+        std::transform(channelLower.begin(), channelLower.end(), channelLower.begin(), ::tolower);
+        // Remove # if present
+        if (!channelLower.empty() && channelLower[0] == '#') {
+            channelLower = channelLower.substr(1);
+        }
+        
+        std::string usernameLower = username;
+        std::transform(usernameLower.begin(), usernameLower.end(), usernameLower.begin(), ::tolower);
+        
+        if (usernameLower == channelLower) {
+            std::cout << "[PROTO] Blocked guess from room creator " << username << " (channel: " << channel << ")\n";
+            return;
+        }
+        
         std::cout << "[PROTO] " << username << " guessed: " << guess << "\n";
         if (room) {
             room->handleGuess(username, guess);
@@ -56,5 +73,21 @@ void GameProtocol::handleCommand(const std::string& username, const std::string&
     }
 
     // --- Fallback: treat any message as a guess attempt ---
+    // Prevent room creator (channel owner) from guessing
+    std::string channelLower = channel;
+    std::transform(channelLower.begin(), channelLower.end(), channelLower.begin(), ::tolower);
+    // Remove # if present
+    if (!channelLower.empty() && channelLower[0] == '#') {
+        channelLower = channelLower.substr(1);
+    }
+    
+    std::string usernameLower = username;
+    std::transform(usernameLower.begin(), usernameLower.end(), usernameLower.begin(), ::tolower);
+    
+    if (usernameLower == channelLower) {
+        std::cout << "[PROTO] Blocked guess from room creator " << username << " (channel: " << channel << ")\n";
+        return;
+    }
+    
     room->handleGuess(username, lower);
 }

@@ -1,0 +1,72 @@
+# Build directories
+build/
+out/
+cmake-build-*/
+
+# vcpkg installed packages (will be installed in container)
+vcpkg_installed/
+
+# Compiled binaries
+*.exe
+*.dll
+*.lib
+*.a
+*.so
+*.dylib
+
+# Object files
+*.o
+*.obj
+*.pdb
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+*.cmake
+!CMakeLists.txt
+
+# Visual Studio files
+.vs/
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Setup scripts (not needed in container)
+setup.ps1
+setup.bat
+SETUP.md
+BUILD_AND_RUN.md
+
+# Git files
+.git/
+.gitignore
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Documentation (optional, can include if needed)
+README.md
+
+# Pre-generated proto files (must be regenerated in container)
+proto/proto_gen/

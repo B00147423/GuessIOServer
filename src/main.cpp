@@ -30,6 +30,7 @@ nlohmann::json loadConfig(const std::string& path) {
 
 // get environment variable with fallback
 std::string getEnvVar(const std::string& key, const std::string& defaultValue = "") {
+#ifdef _WIN32
     char* val = nullptr;
     size_t len = 0;
     errno_t err = _dupenv_s(&val, &len, key.c_str());
@@ -44,6 +45,13 @@ std::string getEnvVar(const std::string& key, const std::string& defaultValue = 
         free(val);
     }
     return defaultValue;
+#else
+    const char* val = std::getenv(key.c_str());
+    if (val != nullptr) {
+        return std::string(val);
+    }
+    return defaultValue;
+#endif
 }
 
 // signal handler
